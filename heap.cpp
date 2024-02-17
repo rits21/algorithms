@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#define SIZE 1001
 using namespace std;
 
 void maxHeapify(vector<int> &arr, int i, int size)
@@ -91,6 +92,31 @@ void heapSort(vector<int> &arr) // TC: O(nlogn)
     }
 }
 
+void heapPush(vector<int> &heap, int val)
+{
+    if (heap.size() >= SIZE)
+    {
+        cout << "Overflow";
+        return;
+    }
+    heap.push_back(val);
+    int i = heap.size() - 1;
+    while (i > 0 && heap[(i - 1) / 2] < heap[i])
+    {
+        swap(heap[(i - 1) / 2], heap[i]);
+        i = (i - 1) / 2;
+    }
+}
+
+int heapPop(vector<int> &heap)
+{
+    int popped = heap[0];
+    heap[0] = heap.back();
+    heap.pop_back();
+    maxHeapify(heap, 0, heap.size());
+    return popped;
+}
+
 int main()
 {
     vector<int> arr = {3, 6, 5, 81, 8, 2, 1, 7};
@@ -106,5 +132,7 @@ int main()
     {
         cout << i << " ";
     }
+    cout << endl;
+    cout << heapPop(arr);
     return 0;
 }
